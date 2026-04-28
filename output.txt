@@ -1,0 +1,6 @@
+Yuri 600.0 366.7
+Maria 500.0 366.7
+Evgenii 0.0 366.7
+
+Evgenii 233.3 Yuri
+Evgenii 133.3 Maria

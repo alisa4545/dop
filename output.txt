@@ -1,6 +1,8 @@
-Yuri 600.0 366.7
-Maria 500.0 366.7
-Evgenii 0.0 366.7
+Yuri 500.0 362.5
+Maria 500.0 362.5
+Evgenii 350.0 362.5
+Mark 100.0 362.5
 
-Evgenii 233.3 Yuri
-Evgenii 133.3 Maria
+Evgenii 12.5 Yuri
+Mark 125.0 Yuri
+Mark 137.5 Maria

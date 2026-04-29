@@ -17,10 +17,11 @@ struct Participant {
 };
 
 string clean(const string& s) {
-    string result = s;
-    result.erase(0, result.find_first_not_of(" \t\r\n"));
-    result.erase(result.find_last_not_of(" \t\r\n") + 1);
-    return result;
+    if (s.empty()) return "";
+    size_t start = s.find_first_not_of(" \t\r\n");
+    if (start == string::npos) return "";
+    size_t end = s.find_last_not_of(" \t\r\n");
+    return s.substr(start, end - start + 1);
 }
 
 vector<string> split(const string& s, char delimiter) {
@@ -61,10 +62,11 @@ int main() {
         string name = tokens[i];
         participantNames.push_back(name);
         participants[name].name = name;
+        participants[name].spent = 0.0;
+        participants[name].norm = 0.0;
     }
 
     string line;
-    double totalSpent = 0.0;
 
     while (getline(inputFile, line)) {
         if (clean(line).empty()) continue;
@@ -82,7 +84,6 @@ int main() {
         iss >> amount;
 
         participants[payer].spent += amount;
-        totalSpent += amount;
 
         vector<string> excluded;
         if (slashPos != string::npos) {
@@ -114,18 +115,15 @@ int main() {
 
     outputFile << fixed << setprecision(1);
     for (const auto& name : participantNames) {
-        double normal = totalSpent / numParticipants;
-        outputFile << name << " " << participants[name].spent << " " << normal << endl;
+        outputFile << name << " " << participants[name].spent << " " << participants[name].norm << endl;
     }
     outputFile << endl;
 
     vector<pair<string, double>> debtors;
     vector<pair<string, double>> creditors;
 
-    double avgSpent = totalSpent / numParticipants;
-
     for (const auto& name : participantNames) {
-        double balance = participants[name].spent - avgSpent;
+        double balance = participants[name].spent - participants[name].norm;
         if (balance > 0.009) {
             creditors.push_back({ name, balance });
         }
